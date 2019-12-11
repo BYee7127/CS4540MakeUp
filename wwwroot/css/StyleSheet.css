@@ -1,0 +1,41 @@
+﻿/**
+    Author: Beverly Yee
+    Date:   2019.09.13
+
+    Redone from the previous project to prevent clutter. Attempting to do more with Bootstrap than
+    with CSS. 
+**/
+
+/* -------------------- Actual Tags -------------------- */
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    /* Adjust everything once, don't do it again. */
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    /* Create a decent sized font so EVERYONE can see it */
+    font-size: 22px;
+}
+
+.footer {
+    font-size: 14px;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+}
+
+/* -------------------- Divs -------------------- */
+.container2 {
+    width: 75%;
+    margin: auto;
+}
+
+/* -------------------- Navbar -------------------- */
+/* Adjusting the height of the navbar*/
+.navbar {
+    min-height: 80px;
+}
+
