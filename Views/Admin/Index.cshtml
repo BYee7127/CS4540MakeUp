@@ -29,18 +29,71 @@
     <tbody>
         @foreach (var user in UserManager.Users.OrderBy(u => u.UserName))
         {
-            <tr>
-                <td>
-                </td>
-                <td>
-                </td>
-                <td>
-                </td>
-                <td>
-                </td>
-                <td>
-                </td>
-            </tr>
+            var name = user.UserName;
+            var checkbox_id = name.Replace("@", "").Replace(".", "");
+        <tr>
+            <td>
+                @name
+            </td>
+            <td>
+
+                @{
+                    checkbox_id = checkbox_id + "Admin";
+                }
+                @if (await UserManager.IsInRoleAsync(user, "Admin"))
+                {
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" name="checkbox" onclick="change_role('@checkbox_id', '@name' , 'Admin', event)" class="custom-control-input" id="@checkbox_id" checked>
+                        <label class="custom-control-label" for="@checkbox_id"></label>
+                    </div>
+                }
+                else
+                {
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" name="checkbox" onclick="change_role('@checkbox_id', '@name' , 'Admin', event)" class="custom-control-input" id="@checkbox_id">
+                        <label class="custom-control-label" for="@checkbox_id"></label>
+                    </div>
+                }
+            </td>
+            <td>
+                @{
+                    checkbox_id = checkbox_id + "High Commander";
+                }
+                @if (await UserManager.IsInRoleAsync(user, "High Commander"))
+                {
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" name="checkbox" onclick="change_role('@checkbox_id', '@name' , 'High Commander', event)" class="custom-control-input" id="@checkbox_id" checked>
+                        <label class="custom-control-label" for="@checkbox_id"></label>
+                    </div>
+                }
+                else
+                {
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" name="checkbox" onclick="change_role('@checkbox_id', '@name' , 'High Commander', event)" class="custom-control-input" id="@checkbox_id">
+                        <label class="custom-control-label" for="@checkbox_id"></label>
+                    </div>
+                }
+            </td>
+            <td>
+                @{
+                    checkbox_id = checkbox_id + "Commander";
+                }
+                @if (await UserManager.IsInRoleAsync(user, "Commander"))
+                {
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" name="checkbox" onclick="change_role('@checkbox_id', '@name' , 'Commander', event)" class="custom-control-input" id="@checkbox_id" checked>
+                        <label class="custom-control-label" for="@checkbox_id"></label>
+                    </div>
+                }
+                else
+                {
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" name="checkbox" onclick="change_role('@checkbox_id', '@name' , 'Commander', event)" class="custom-control-input" id="@checkbox_id">
+                        <label class="custom-control-label" for="@checkbox_id"></label>
+                    </div>
+                }
+            </td>
+        </tr>
         }
     </tbody>
 </table>

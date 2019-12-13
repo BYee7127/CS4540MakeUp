@@ -37,6 +37,18 @@ namespace QinMilitary.Controllers
             return View("/Views/Soldiers/Index.cshtml", await soldiers.ToListAsync());
         }
 
+        public async Task<IActionResult> HighUnit()
+        {
+            IdentityUser user = await _userManager.FindByNameAsync(User.Identity.Name);
+            string userID = user.Id;
+
+            var units = _context.Units.Where(c => c.Admin.UserID == userID);
+            if(units == null)
+                return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
+
+            return View(await units.ToListAsync());
+        }
+
         // GET: High/Details/5
         public async Task<IActionResult> Details(int? id)
         {
