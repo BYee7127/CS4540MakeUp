@@ -10,8 +10,8 @@ using QinMilitary.Data;
 namespace QinMilitary.Migrations
 {
     [DbContext(typeof(QMContext))]
-    [Migration("20191211043116_Initial")]
-    partial class Initial
+    [Migration("20191213012637_InitialRC")]
+    partial class InitialRC
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -73,7 +73,7 @@ namespace QinMilitary.Migrations
 
                     b.Property<string>("LastName");
 
-                    b.Property<string>("Rank");
+                    b.Property<int>("Rank");
 
                     b.Property<string>("Status");
 

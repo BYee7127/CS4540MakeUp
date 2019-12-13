@@ -57,6 +57,7 @@ namespace QinMilitary
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
+            // allows authentication library to run at runtime
             app.UseAuthentication();
 
             app.UseMvc(routes =>

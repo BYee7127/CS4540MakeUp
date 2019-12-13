@@ -22,6 +22,6 @@ namespace QinMilitary.Models
         [Display(Name = "Years of Service")]
         public int Years { get; set; }
         public string Status { get; set; }
-        public string Rank { get; set; }
+        public int Rank { get; set; }
     }
 }

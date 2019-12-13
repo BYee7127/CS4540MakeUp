@@ -11,21 +11,38 @@ namespace QinMilitary.Data
 {
     public class DbInitializer
     {
-        public  static void Initialize(QMContext context)
+        public static async Task InitializeAsync(QMContext context, IServiceProvider serviceProvider)
         {
-            //context.Database.Migrate();
-            context.Database.EnsureCreated();
+            context.Database.Migrate();
+            // context.Database.EnsureCreated();
+
+            UsersRolesDB userContext = serviceProvider.GetRequiredService<UsersRolesDB>();
+            userContext.Database.Migrate();
 
             // populate the officers
             if (!context.Officers.Any())
             {
                 Officer[] officers = new Officer[]
                 {
-                    new Officer {FirstName = "Shin", LastName = "", Rank = "5000-Man Commander", Years = 9, Status = "Alive"},
-                    new Officer {FirstName = "Hon", LastName = "Ou", Rank = "5000-Man Commander", Years = 9, Status = "Alive"},
-                    new Officer {FirstName = "Ten", LastName = "Mou", Rank = "5000-Man Commander", Years = 9, Status = "Alive"},
-                    new Officer {FirstName = "Renka", LastName = "Shou", Rank = "5000-Man Commander", Years = 9, Status = "Alive"},
-                    new Officer {FirstName = "Bi", LastName = "Kaku", Rank = "1000-Man Commander", Years = 9, Status = "Deceased"}
+                    // admins/generals/great generals
+                    // 0 = king, 1 = chancellor, 2 = great general, 3 = general
+                    new Officer {FirstName = "Sei", LastName = "Ei", Rank = 0, Years = 9, Status = "Alive"},
+                    new Officer {FirstName = "Bunkun", LastName = "Shou", Rank = 1, Years = 9, Status = "Alive"},
+                    new Officer {FirstName = "Heikun", LastName = "Shou", Rank = 1, Years = 9, Status = "Alive"},
+
+                    // high commanders 1000-5000 
+                    new Officer {FirstName = "Shin", LastName = "", Rank = 5000, Years = 9, Status = "Alive"},
+                    new Officer {FirstName = "Hon", LastName = "Ou", Rank = 5000, Years = 9, Status = "Alive"},
+                    new Officer {FirstName = "Ten", LastName = "Mou", Rank = 5000, Years = 9, Status = "Alive"},
+                    new Officer {FirstName = "Renka", LastName = "Shou", Rank = 5000, Years = 9, Status = "Alive"},
+                    new Officer {FirstName = "Bi", LastName = "Kaku", Rank = 1000, Years = 2, Status = "Deceased"},
+
+                    // commanders 100-500 
+                    new Officer {FirstName = "Fun", LastName = "Sa", Rank = 100, Years = 9, Status = "Alive"},
+                    new Officer {FirstName = "Un", LastName = "Sen", Rank = 100, Years = 9, Status = "Alive"},
+                    new Officer {FirstName = "Shun", LastName = "Ken", Rank = 500, Years = 13, Status = "Alive"},
+                    new Officer {FirstName = "Shin", LastName = "Ryou", Rank = 300, Years = 6, Status = "Deceased"},
+                    new Officer {FirstName = "Toukai", LastName = "Ki", Rank = 300, Years = 4, Status = "Deceased"}
                 };
                 foreach (Officer o in officers)
                 {
@@ -39,11 +56,17 @@ namespace QinMilitary.Data
             {
                 Unit[] units = new Unit[]
                 {
-                    new Unit{Name = "Hi SHin Unit", Numbers = 8000, OfficerID = 1},
-                    new Unit{Name = "Gyoku Hou Unit",Numbers = 5000, OfficerID = 2},
-                    new Unit{Name = "Gaku Ka Unit", Numbers = 5000, OfficerID = 3},
-                    new Unit{Name = "Sou Ou Unit",Numbers = 5000, OfficerID = 4},
-                    new Unit{Name = "Kaku Bi Unit", Numbers = 1000, OfficerID = 5}
+                    new Unit{Name = "Hi SHin Unit", Numbers = 8000, OfficerID = 4},
+                    new Unit{Name = "Gyoku Hou Unit",Numbers = 5000, OfficerID = 5},
+                    new Unit{Name = "Gaku Ka Unit", Numbers = 5000, OfficerID = 5},
+                    new Unit{Name = "Sou Ou Unit",Numbers = 5000, OfficerID = 7},
+                    new Unit{Name = "Kaku Bi Unit", Numbers = 1000, OfficerID = 8},
+
+                    new Unit{Name = "Red Leaf Tribe", Numbers = 100, OfficerID = 9},
+                    new Unit{Name = "Yellow Bark Tribe", Numbers = 100, OfficerID = 10},
+                    new Unit{Name = "Kin Gou Troops", Numbers = 500, OfficerID = 11},
+                    new Unit{Name = "Chou Archers", Numbers = 300, OfficerID = 12},
+                    new Unit{Name = "Ki Toukai Troops", Numbers = 300, OfficerID = 13}
                 };
                 foreach (Unit u in units)
                 {
@@ -76,7 +99,6 @@ namespace QinMilitary.Data
                 }
             }
             context.SaveChanges();
-
 
             // populate achievements
             if (!context.Achievements.Any())
@@ -166,6 +188,16 @@ namespace QinMilitary.Data
                 }
             }
             context.SaveChanges();
+
+            // create the users of the website
+            RoleManager<IdentityRole> rm = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            string[] roleNames = { "Admin", "High Commander", "Commander" };
+            IdentityResult result;
+            foreach (string s in roleNames)
+            {
+                // check if the role exists first before adding it
+                bool RExists = await rm.RoleExistsAsync(s);
+            }
 
         }
     }

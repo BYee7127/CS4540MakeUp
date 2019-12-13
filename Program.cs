@@ -24,7 +24,7 @@ namespace QinMilitary
                 try
                 {
                     var context = services.GetRequiredService<QMContext>();
-                    DbInitializer.Initialize(context);
+                    DbInitializer.InitializeAsync(context, services).Wait();
                 }
                 catch (Exception ex)
                 {

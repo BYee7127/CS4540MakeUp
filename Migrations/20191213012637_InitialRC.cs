@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace QinMilitary.Migrations
 {
-    public partial class Initial : Migration
+    public partial class InitialRC : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -17,7 +17,7 @@ namespace QinMilitary.Migrations
                     FirstName = table.Column<string>(nullable: true),
                     Years = table.Column<int>(nullable: false),
                     Status = table.Column<string>(nullable: true),
-                    Rank = table.Column<string>(nullable: true)
+                    Rank = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {

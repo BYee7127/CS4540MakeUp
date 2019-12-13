@@ -48,20 +48,15 @@
             </button>
 
             <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                <ul class="navbar-nav flex-grow-1">
-                    <li class="nav-item">
-                        <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                    </li>
+                <ul class="navbar-nav">
+                    <partial name="_LoginPartial" />
                 </ul>
             </div>
         </nav>
     </header>
 
-    <div class="container">
-        <main role="main" class="pb-3">
+    <div class="container bg-white">
+        <main role="main" class="p-3">
             <p></p>
             <!-- This is where the meat of the website appears. Style layout here as well. -->
             @RenderBody()

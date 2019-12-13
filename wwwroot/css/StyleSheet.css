@@ -10,6 +10,7 @@
 html {
     position: relative;
     min-height: 100%;
+    overflow: hidden;
 }
 
 body {
@@ -17,6 +18,7 @@ body {
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     /* Create a decent sized font so EVERYONE can see it */
     font-size: 22px;
+    background-color: #e8eaf6;
 }
 
 .footer {
@@ -28,10 +30,6 @@ body {
 }
 
 /* -------------------- Divs -------------------- */
-.container2 {
-    width: 75%;
-    margin: auto;
-}
 
 /* -------------------- Navbar -------------------- */
 /* Adjusting the height of the navbar*/

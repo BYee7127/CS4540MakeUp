@@ -1,0 +1,46 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+<!-- Add roles to UI -->
+@{
+    // where returns an array of results
+    var claims = User.Claims.Where(o => o.Value == "Admin");
+    var roleMessage = "";
+
+    if (claims.Count() > 0) { roleMessage = "(Admin)"; }
+
+
+    // user claims to be a high commander
+    claims = User.Claims.Where(o => o.Value == "High");
+    if (claims.Count() > 0) { roleMessage = "(High Commander)"; }
+
+
+    // user claims to be a regular commander
+    claims = User.Claims.Where(o => o.Value == "Commander");
+    if (claims.Count() > 0) { roleMessage = "(Commander)"; }
+}
+
+<!-- Check if the user is signed in. -->
+<ul class="navbar-nav">
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <li class="nav-item">
+            <a id="manage" class="nav-link text-light" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Welcome, @UserManager.GetUserName(User)! @roleMessage</a>
+        </li>
+        <li class="nav-item">
+            <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                <button id="logout" type="submit" class="btn btn-outline-light text-light mt-2 ml-3">Logout</button>
+            </form>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="nav-link text-light" id="register" asp-area="Identity" asp-page="/Account/Register">Register</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-light" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
+        </li>
+    }
+</ul>

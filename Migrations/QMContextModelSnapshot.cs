@@ -71,7 +71,7 @@ namespace QinMilitary.Migrations
 
                     b.Property<string>("LastName");
 
-                    b.Property<string>("Rank");
+                    b.Property<int>("Rank");
 
                     b.Property<string>("Status");
 
