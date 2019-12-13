@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using QinMilitary.Data;
 
 namespace QinMilitary.Migrations.QM
 {
     [DbContext(typeof(QMContext))]
-    partial class QMContextModelSnapshot : ModelSnapshot
+    [Migration("20191213083018_AddCOID")]
+    partial class AddCOID
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

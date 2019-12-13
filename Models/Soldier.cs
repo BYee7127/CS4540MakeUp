@@ -31,6 +31,7 @@ namespace QinMilitary.Models
 
         // navigation properties
         public int UnitID { get; set; }     // foreign key constraint (?)
+        public int? COID { get; set; }
 
         public Unit Unit { get; set; }
         public Officer CO { get; set; }

@@ -84,7 +84,7 @@ namespace QinMilitary.Data
             {
                 Soldier[] soldiers = new Soldier[]
                 {
-                    new Soldier {LastName = "", FirstName = "Kei", Age = 28, Birthplace = "Jyouto Village", Status = "Alive", UnitID = 11},
+                    new Soldier{LastName = "", FirstName = "Kei", Age = 28, Birthplace = "Jyouto Village", Status = "Alive", UnitID = 11},
                     new Soldier{LastName = "", FirstName = "Kou", Age = 23, Birthplace = "Jyouto Village", Status = "Alive", UnitID = 12},
                     new Soldier{LastName = "Sou", FirstName = "Man", Age = 27, Birthplace = "?", Status = "Alive", UnitID = 13},
                     new Soldier{LastName = "Ro", FirstName = "Han", Age = 26, Birthplace = "?", Status = "Alive", UnitID = 14},
@@ -111,6 +111,21 @@ namespace QinMilitary.Data
                 }
             }
             context.SaveChanges();
+
+            var unit = from u in context.Units select u;
+            var soldier = from s in context.Soldiers select s;
+            foreach (var u in unit)
+            {
+                foreach(var s in soldier)
+                {
+                    if(s.UnitID == u.UnitID)
+                    {
+                        s.COID = u.OfficerID;
+                        context.Update(s);
+                        break;
+                    }
+                }
+            }
 
             // populate achievements
             if (!context.Achievements.Any())

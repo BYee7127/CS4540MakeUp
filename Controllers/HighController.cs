@@ -12,19 +12,19 @@ using QinMilitary.Models;
 
 namespace QinMilitary.Controllers
 {
-    [Authorize(Roles = "Commander")]
-    public class CommanderController : Controller
+    [Authorize(Roles = "High Commander")]
+    public class HighController : Controller
     {
         private readonly QMContext _context;
         private readonly UserManager<IdentityUser> _userManager;
 
-        public CommanderController(QMContext context, UserManager<IdentityUser> userManager)
+        public HighController(QMContext context, UserManager<IdentityUser> userManager)
         {
             _context = context;
             _userManager = userManager;
         }
 
-        // GET: Commanders (100-500)
+        // GET: High
         public async Task<IActionResult> Index()
         {
             IdentityUser user = await _userManager.FindByNameAsync(User.Identity.Name);
@@ -37,7 +37,7 @@ namespace QinMilitary.Controllers
             return View("/Views/Soldiers/Index.cshtml", await soldiers.ToListAsync());
         }
 
-        // GET: Officers/Details/5
+        // GET: High/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -55,18 +55,18 @@ namespace QinMilitary.Controllers
             return View(officer);
         }
 
-        // GET: Officers/Create
+        // GET: High/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Officers/Create
+        // POST: High/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("OfficerID,LastName,FirstName,Years,Status,Rank")] Officer officer)
+        public async Task<IActionResult> Create([Bind("OfficerID,UserID,LastName,FirstName,Email,Years,Status,Rank")] Officer officer)
         {
             if (ModelState.IsValid)
             {
@@ -77,7 +77,7 @@ namespace QinMilitary.Controllers
             return View(officer);
         }
 
-        // GET: Officers/Edit/5
+        // GET: High/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -93,12 +93,12 @@ namespace QinMilitary.Controllers
             return View(officer);
         }
 
-        // POST: Officers/Edit/5
+        // POST: High/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("OfficerID,LastName,FirstName,Years,Status,Rank")] Officer officer)
+        public async Task<IActionResult> Edit(int id, [Bind("OfficerID,UserID,LastName,FirstName,Email,Years,Status,Rank")] Officer officer)
         {
             if (id != officer.OfficerID)
             {
@@ -128,7 +128,7 @@ namespace QinMilitary.Controllers
             return View(officer);
         }
 
-        // GET: Officers/Delete/5
+        // GET: High/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -146,7 +146,7 @@ namespace QinMilitary.Controllers
             return View(officer);
         }
 
-        // POST: Officers/Delete/5
+        // POST: High/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

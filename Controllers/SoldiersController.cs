@@ -20,7 +20,7 @@ namespace QinMilitary.Controllers
             _context = context;
         }
 
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         // GET: Soldiers
         public async Task<IActionResult> Index()
         {

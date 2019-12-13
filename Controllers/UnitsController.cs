@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -12,32 +11,24 @@ using QinMilitary.Models;
 
 namespace QinMilitary.Controllers
 {
-    [Authorize(Roles = "Commander")]
-    public class CommanderController : Controller
+    public class UnitsController : Controller
     {
         private readonly QMContext _context;
-        private readonly UserManager<IdentityUser> _userManager;
 
-        public CommanderController(QMContext context, UserManager<IdentityUser> userManager)
+        public UnitsController(QMContext context)
         {
             _context = context;
-            _userManager = userManager;
         }
 
-        // GET: Commanders (100-500)
+        [Authorize(Roles = "Admin")]
+        // GET: Units
         public async Task<IActionResult> Index()
         {
-            IdentityUser user = await _userManager.FindByNameAsync(User.Identity.Name);
-            string userID = user.Id;
-
-            var soldiers = _context.Soldiers.Where(c => c.CO.UserID == userID).OrderBy(c => c.FullName);
-            if (soldiers == null)
-                return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
-
-            return View("/Views/Soldiers/Index.cshtml", await soldiers.ToListAsync());
+            var qMContext = _context.Units.Include(u => u.Admin);
+            return View(await qMContext.ToListAsync());
         }
 
-        // GET: Officers/Details/5
+        // GET: Units/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -45,39 +36,42 @@ namespace QinMilitary.Controllers
                 return NotFound();
             }
 
-            var officer = await _context.Officers
-                .FirstOrDefaultAsync(m => m.OfficerID == id);
-            if (officer == null)
+            var unit = await _context.Units
+                .Include(u => u.Admin)
+                .FirstOrDefaultAsync(m => m.UnitID == id);
+            if (unit == null)
             {
                 return NotFound();
             }
 
-            return View(officer);
+            return View(unit);
         }
 
-        // GET: Officers/Create
+        // GET: Units/Create
         public IActionResult Create()
         {
+            ViewData["OfficerID"] = new SelectList(_context.Officers, "OfficerID", "OfficerID");
             return View();
         }
 
-        // POST: Officers/Create
+        // POST: Units/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("OfficerID,LastName,FirstName,Years,Status,Rank")] Officer officer)
+        public async Task<IActionResult> Create([Bind("UnitID,Name,Numbers,OfficerID")] Unit unit)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(officer);
+                _context.Add(unit);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(officer);
+            ViewData["OfficerID"] = new SelectList(_context.Officers, "OfficerID", "OfficerID", unit.OfficerID);
+            return View(unit);
         }
 
-        // GET: Officers/Edit/5
+        // GET: Units/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -85,22 +79,23 @@ namespace QinMilitary.Controllers
                 return NotFound();
             }
 
-            var officer = await _context.Officers.FindAsync(id);
-            if (officer == null)
+            var unit = await _context.Units.FindAsync(id);
+            if (unit == null)
             {
                 return NotFound();
             }
-            return View(officer);
+            ViewData["OfficerID"] = new SelectList(_context.Officers, "OfficerID", "OfficerID", unit.OfficerID);
+            return View(unit);
         }
 
-        // POST: Officers/Edit/5
+        // POST: Units/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("OfficerID,LastName,FirstName,Years,Status,Rank")] Officer officer)
+        public async Task<IActionResult> Edit(int id, [Bind("UnitID,Name,Numbers,OfficerID")] Unit unit)
         {
-            if (id != officer.OfficerID)
+            if (id != unit.UnitID)
             {
                 return NotFound();
             }
@@ -109,12 +104,12 @@ namespace QinMilitary.Controllers
             {
                 try
                 {
-                    _context.Update(officer);
+                    _context.Update(unit);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!OfficerExists(officer.OfficerID))
+                    if (!UnitExists(unit.UnitID))
                     {
                         return NotFound();
                     }
@@ -125,10 +120,11 @@ namespace QinMilitary.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(officer);
+            ViewData["OfficerID"] = new SelectList(_context.Officers, "OfficerID", "OfficerID", unit.OfficerID);
+            return View(unit);
         }
 
-        // GET: Officers/Delete/5
+        // GET: Units/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -136,30 +132,31 @@ namespace QinMilitary.Controllers
                 return NotFound();
             }
 
-            var officer = await _context.Officers
-                .FirstOrDefaultAsync(m => m.OfficerID == id);
-            if (officer == null)
+            var unit = await _context.Units
+                .Include(u => u.Admin)
+                .FirstOrDefaultAsync(m => m.UnitID == id);
+            if (unit == null)
             {
                 return NotFound();
             }
 
-            return View(officer);
+            return View(unit);
         }
 
-        // POST: Officers/Delete/5
+        // POST: Units/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var officer = await _context.Officers.FindAsync(id);
-            _context.Officers.Remove(officer);
+            var unit = await _context.Units.FindAsync(id);
+            _context.Units.Remove(unit);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool OfficerExists(int id)
+        private bool UnitExists(int id)
         {
-            return _context.Officers.Any(e => e.OfficerID == id);
+            return _context.Units.Any(e => e.UnitID == id);
         }
     }
 }
