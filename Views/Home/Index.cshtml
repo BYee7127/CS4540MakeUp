@@ -24,14 +24,14 @@
                 Rank:<br />
                 <span class="mr-md-4"></span>General or higher<br />
                 Actions:<br />
-                <span class="mr-md-4"></span>View/Manage soldiers<br />
-                <span class="mr-md-4"></span>View/Manage achivements<br />
-                <span class="mr-md-4"></span>View/Manage permissions<br />
+                <span class="mr-md-4"></span>
+                <a asp-area="" asp-controller="Soldiers" asp-action="Index">View/Manage soldiers</a><br />
+                <span class="mr-md-4"></span>
+                <a asp-area="" asp-controller="Achievements" asp-action="Index">View/Manage achievements</a><br />
+                <span class="mr-md-4"></span>
+                <a asp-area="" asp-controller="Admin" asp-action="Index">View/Manage permissions</a><br />
                 <span class="mr-md-4"></span>View/Manage units
             </p>
-        </div>
-        <div class="card-footer text-center">
-            <a href="#" class="btn btn-primary disabled">Admin Login</a>
         </div>
     </div>
 
@@ -58,11 +58,8 @@
                 Rank:<br />
                 <span class="mr-md-4"></span>100-500 Man commanders<br />
                 Actions:<br />
-                <span class="mr-md-4"></span>View/Manage unit soldiers
+                <span class="mr-md-4"></span><a asp-area="" asp-controller="Commander" asp-action="Index">View/Manage unit soldiers</a>
             </p>
-        </div>
-        <div class="card-footer text-center">
-            <a asp-area="" asp-controller="Commander" asp-action="Index" class="btn btn-primary">Commander Login</a>
         </div>
     </div>
 </div>

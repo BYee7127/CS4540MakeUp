@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,19 +12,29 @@ using QinMilitary.Models;
 
 namespace QinMilitary.Controllers
 {
+    [Authorize(Roles = "Commander")]
     public class CommanderController : Controller
     {
         private readonly QMContext _context;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public CommanderController(QMContext context)
+        public CommanderController(QMContext context, UserManager<IdentityUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Commanders (100-500)
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Officers.ToListAsync());
+            IdentityUser user = await _userManager.FindByNameAsync(User.Identity.Name);
+            string userID = user.Id;
+
+            var soldiers = _context.Soldiers.Where(c => c.CO.UserID == userID).OrderBy(c => c.FullName);
+            if (soldiers == null)
+                return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
+
+            return View(await soldiers.ToListAsync());
         }
 
         // GET: Officers/Details/5

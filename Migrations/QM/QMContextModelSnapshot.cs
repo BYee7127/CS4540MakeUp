@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using QinMilitary.Data;
 
-namespace QinMilitary.Migrations
+namespace QinMilitary.Migrations.QM
 {
     [DbContext(typeof(QMContext))]
     partial class QMContextModelSnapshot : ModelSnapshot
@@ -67,6 +67,8 @@ namespace QinMilitary.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Email");
+
                     b.Property<string>("FirstName");
 
                     b.Property<string>("LastName");
@@ -74,6 +76,8 @@ namespace QinMilitary.Migrations
                     b.Property<int>("Rank");
 
                     b.Property<string>("Status");
+
+                    b.Property<string>("UserID");
 
                     b.Property<int>("Years");
 

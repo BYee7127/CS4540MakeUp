@@ -2,9 +2,9 @@
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace QinMilitary.Migrations.UsersRolesDBMigrations
+namespace QinMilitary.Migrations
 {
-    public partial class CreateIdenditySchema : Migration
+    public partial class UpdateRoles : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

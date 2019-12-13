@@ -8,8 +8,10 @@ Citations:
 	Tutorial: Get started with EF Core in an ASP.NET MVC web app - https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/intro?view=aspnetcore-2.2#create-web-app
 	Tutorial: Implement CRUD Functionality - ASP.NET MVC with EF Core - https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/crud?view=aspnetcore-2.2
 	Tutorial: Using the migrations feature - ASP.NET MVC with EF Core - https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/migrations?view=aspnetcore-2.2
+	Authorization with Roles in ASP.NET Core 2.x MVC Web Application - https://romansimuta.com/blogs/blog/authorization-with-roles-in-asp.net-core-mvc-web-application
 
 Update 12.12:
+	Added Roles
 	Added Controllers
 Update 12.10:
 	Added and seeded database

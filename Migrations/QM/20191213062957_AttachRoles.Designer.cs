@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using QinMilitary.Data;
 
-namespace QinMilitary.Migrations
+namespace QinMilitary.Migrations.QM
 {
     [DbContext(typeof(QMContext))]
-    [Migration("20191213012637_InitialRC")]
-    partial class InitialRC
+    [Migration("20191213062957_AttachRoles")]
+    partial class AttachRoles
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -69,6 +69,8 @@ namespace QinMilitary.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Email");
+
                     b.Property<string>("FirstName");
 
                     b.Property<string>("LastName");
@@ -76,6 +78,8 @@ namespace QinMilitary.Migrations
                     b.Property<int>("Rank");
 
                     b.Property<string>("Status");
+
+                    b.Property<string>("UserID");
 
                     b.Property<int>("Years");
 

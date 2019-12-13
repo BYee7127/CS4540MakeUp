@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using QinMilitary.Models;
 
-namespace QinMilitary.Migrations.UsersRolesDBMigrations
+namespace QinMilitary.Migrations
 {
     [DbContext(typeof(UsersRolesDB))]
     partial class UsersRolesDBModelSnapshot : ModelSnapshot

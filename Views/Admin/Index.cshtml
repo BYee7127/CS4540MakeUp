@@ -1,60 +1,46 @@
-﻿@model IEnumerable<QinMilitary.Models.Officer>
+﻿<!-- The permissions table of who gets to do what. -->
+@using Microsoft.AspNetCore.Identity
+@inject RoleManager<IdentityRole> RoleManager
+@inject UserManager<IdentityUser> UserManager
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Admin";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<h1>Permissions Table</h1>
+<p><br /></p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.LastName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FirstName)
+                Admin
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Years)
+                High Commander
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Status)
+                Commander
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Rank)
-            </th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Years)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Rank)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.OfficerID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.OfficerID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.OfficerID">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var user in UserManager.Users.OrderBy(u => u.UserName))
+        {
+            <tr>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

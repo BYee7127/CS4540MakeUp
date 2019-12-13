@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -11,24 +10,22 @@ using QinMilitary.Models;
 
 namespace QinMilitary.Controllers
 {
-    public class SoldiersController : Controller
+    public class AchievementsController : Controller
     {
         private readonly QMContext _context;
 
-        public SoldiersController(QMContext context)
+        public AchievementsController(QMContext context)
         {
             _context = context;
         }
 
-        //[Authorize(Roles = "Admin")]
-        // GET: Soldiers
+        // GET: Achievements
         public async Task<IActionResult> Index()
         {
-            var qMContext = _context.Soldiers.Include(s => s.Unit);
-            return View(await qMContext.ToListAsync());
+            return View(await _context.Achievements.ToListAsync());
         }
 
-        // GET: Soldiers/Details/5
+        // GET: Achievements/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -36,43 +33,39 @@ namespace QinMilitary.Controllers
                 return NotFound();
             }
 
-            var soldier = await _context.Soldiers
-                .Include(s => s.Unit)
-                .FirstOrDefaultAsync(m => m.SoldierID == id);
-            if (soldier == null)
+            var achievement = await _context.Achievements
+                .FirstOrDefaultAsync(m => m.AchievementID == id);
+            if (achievement == null)
             {
                 return NotFound();
             }
 
-            return View(soldier);
+            return View(achievement);
         }
 
-        [Authorize(Roles = "Admin")]
-        // GET: Soldiers/Create
+        // GET: Achievements/Create
         public IActionResult Create()
         {
-            ViewData["UnitID"] = new SelectList(_context.Units, "UnitID", "UnitID");
             return View();
         }
 
-        // POST: Soldiers/Create
+        // POST: Achievements/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("SoldierID,LastName,FirstName,Status,Age,Birthplace,UnitID")] Soldier soldier)
+        public async Task<IActionResult> Create([Bind("AchievementID,SolderID,Description,Battle,Reward")] Achievement achievement)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(soldier);
+                _context.Add(achievement);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UnitID"] = new SelectList(_context.Units, "UnitID", "UnitID", soldier.UnitID);
-            return View(soldier);
+            return View(achievement);
         }
 
-        // GET: Soldiers/Edit/5
+        // GET: Achievements/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -80,23 +73,22 @@ namespace QinMilitary.Controllers
                 return NotFound();
             }
 
-            var soldier = await _context.Soldiers.FindAsync(id);
-            if (soldier == null)
+            var achievement = await _context.Achievements.FindAsync(id);
+            if (achievement == null)
             {
                 return NotFound();
             }
-            ViewData["UnitID"] = new SelectList(_context.Units, "UnitID", "UnitID", soldier.UnitID);
-            return View(soldier);
+            return View(achievement);
         }
 
-        // POST: Soldiers/Edit/5
+        // POST: Achievements/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("SoldierID,LastName,FirstName,Status,Age,Birthplace,UnitID")] Soldier soldier)
+        public async Task<IActionResult> Edit(int id, [Bind("AchievementID,SolderID,Description,Battle,Reward")] Achievement achievement)
         {
-            if (id != soldier.SoldierID)
+            if (id != achievement.AchievementID)
             {
                 return NotFound();
             }
@@ -105,12 +97,12 @@ namespace QinMilitary.Controllers
             {
                 try
                 {
-                    _context.Update(soldier);
+                    _context.Update(achievement);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!SoldierExists(soldier.SoldierID))
+                    if (!AchievementExists(achievement.AchievementID))
                     {
                         return NotFound();
                     }
@@ -121,11 +113,10 @@ namespace QinMilitary.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UnitID"] = new SelectList(_context.Units, "UnitID", "UnitID", soldier.UnitID);
-            return View(soldier);
+            return View(achievement);
         }
 
-        // GET: Soldiers/Delete/5
+        // GET: Achievements/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -133,31 +124,30 @@ namespace QinMilitary.Controllers
                 return NotFound();
             }
 
-            var soldier = await _context.Soldiers
-                .Include(s => s.Unit)
-                .FirstOrDefaultAsync(m => m.SoldierID == id);
-            if (soldier == null)
+            var achievement = await _context.Achievements
+                .FirstOrDefaultAsync(m => m.AchievementID == id);
+            if (achievement == null)
             {
                 return NotFound();
             }
 
-            return View(soldier);
+            return View(achievement);
         }
 
-        // POST: Soldiers/Delete/5
+        // POST: Achievements/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var soldier = await _context.Soldiers.FindAsync(id);
-            _context.Soldiers.Remove(soldier);
+            var achievement = await _context.Achievements.FindAsync(id);
+            _context.Achievements.Remove(achievement);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool SoldierExists(int id)
+        private bool AchievementExists(int id)
         {
-            return _context.Soldiers.Any(e => e.SoldierID == id);
+            return _context.Achievements.Any(e => e.AchievementID == id);
         }
     }
 }

@@ -22,7 +22,7 @@ namespace QinMilitary.Models
         [Display(Name = "First Name")]
         public string FirstName { get; set; }
         [Display(Name = "Name")]
-        public string FullName { get { return FirstName + " " + LastName; } }
+        public string FullName { get { return LastName + " " + FirstName; } }
 
         // Statistics
         public string Status { get; set; }

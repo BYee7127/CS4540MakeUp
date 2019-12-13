@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using QinMilitary.Models;
 
-namespace QinMilitary.Migrations.UsersRolesDBMigrations
+namespace QinMilitary.Migrations
 {
     [DbContext(typeof(UsersRolesDB))]
-    [Migration("20191213030014_CreateIdenditySchema")]
-    partial class CreateIdenditySchema
+    [Migration("20191213062939_UpdateRoles")]
+    partial class UpdateRoles
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

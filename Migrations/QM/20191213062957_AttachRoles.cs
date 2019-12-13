@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace QinMilitary.Migrations
+namespace QinMilitary.Migrations.QM
 {
-    public partial class InitialRC : Migration
+    public partial class AttachRoles : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -13,8 +13,10 @@ namespace QinMilitary.Migrations
                 {
                     OfficerID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    UserID = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true),
                     FirstName = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(nullable: true),
                     Years = table.Column<int>(nullable: false),
                     Status = table.Column<string>(nullable: true),
                     Rank = table.Column<int>(nullable: false)
